@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscripción ASOCITECH Montes</title>
+    <style>
+        body { background: #0d0d0d; color: #00ffaa; font-family: 'Segoe UI', sans-serif; padding: 20px; }
+        .card { background: #1a1a1a; border: 2px solid #00ffaa; border-radius: 15px; padding: 20px; max-width: 500px; margin: auto; box-shadow: 0 0 15px #00ffaa66; }
+        input, select, textarea { width: 100%; padding: 10px; margin: 10px 0; background: #222; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; background: #00ffaa; color: black; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 style="text-align:center;">🧬 REGISTRO ASOCITECH</h2>
+        <form action="/registrar" method="post">
+            <input type="text" name="nombre" placeholder="Nombre Completo" required>
+            <input type="text" name="cedula" placeholder="Cédula" required>
+            <input type="number" name="edad" placeholder="Edad" required>
+            <select name="sexo">
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+            </select>
+            <input type="text" name="liceo" placeholder="Liceo / Escuela" required>
+            <input type="text" name="ano" placeholder="Año (Ej: 3ero)" required>
+            <input type="text" name="seccion" placeholder="Sección (Ej: B, Z, Única)" required>
+            <textarea name="interes" placeholder="¿Qué te gusta de las ciencias?" required></textarea>
+            <select name="nivel">
+                <option value="Principiante">Principiante</option>
+                <option value="Intermedio">Intermedio</option>
+                <option value="Avanzado">Avanzado</option>
+            </select>
+            <select name="feria">
+                <option value="No">¿Has participado en ferias? No</option>
+                <option value="Si">Sí</option>
+            </select>
+            <input type="text" name="grupo" placeholder="Grupo al que perteneces (Opcional)">
+            <hr>
+            <p style="font-size: 0.8em;">DATOS DEL REPRESENTANTE</p>
+            <input type="text" name="rep_nombre" placeholder="Nombre del Representante" required>
+            <input type="text" name="rep_tel" placeholder="Teléfono (Ej: 58412...)" required>
+            <button type="submit">VINCULAR CON ZUR-X 🚀</button>
+        </form>
+    </div>
+</body>
+</html>
