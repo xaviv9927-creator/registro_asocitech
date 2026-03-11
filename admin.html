@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN ASOCITECH</title>
+    <style>
+        body { background: #000; color: #fff; font-family: sans-serif; padding: 10px; }
+        h1 { color: #00ccff; font-size: 1.2em; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.8em; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+        th { background: #111; color: #00ffaa; }
+        tr:nth-child(even) { background: #111; }
+        .wa { color: #25d366; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>📊 Panel ZUR-X: Inscritos Organizados</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Liceo</th>
+                <th>Año/Sec</th>
+                <th>Edad</th>
+                <th>Nombre</th>
+                <th>Representante</th>
+                <th>WhatsApp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in alumnos %}
+            <tr>
+                <td><b>{{ a.liceo }}</b></td>
+                <td>{{ a.ano }} ({{ a.seccion }})</td>
+                <td>{{ a.edad }}</td>
+                <td>{{ a.nombre }}</td>
+                <td>{{ a.rep_nombre }}</td>
+                <td><a href="https://wa.me/{{ a.rep_tel }}" class="wa">Chat 🟢</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
