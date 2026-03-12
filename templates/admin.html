@@ -3,242 +3,351 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASOCITECH · Registro Científico</title>
+    <title>Panel ASOCITECH</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #0a0f1e 0%, #1a1f2e 100%);
-            min-height: 100vh;
+            background: #0a0c10;
+            color: #e0e0e0;
+        }
+        
+        /* BARRA SUPERIOR */
+        .top-bar {
+            background: #151f2a;
+            padding: 15px 25px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            justify-content: space-between;
+            border-bottom: 2px solid #00ffaa;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
-        .container {
-            width: 100%;
-            max-width: 800px;
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
         
-        .card {
-            background: rgba(20, 30, 40, 0.95);
-            backdrop-filter: blur(10px);
+        .menu-btn {
+            background: none;
+            border: none;
+            color: #00ffaa;
+            font-size: 28px;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+        }
+        
+        .menu-btn:hover {
+            background: #1a2a35;
+        }
+        
+        .title {
+            color: #00ffaa;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+        
+        .stats-badge {
+            background: #00aaff;
+            color: #000;
+            padding: 8px 16px;
             border-radius: 30px;
-            padding: 35px;
-            border: 1px solid rgba(0, 255, 170, 0.2);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            font-weight: bold;
         }
         
-        .header {
-            text-align: center;
+        /* MENÚ LATERAL */
+        .sidebar {
+            position: fixed;
+            left: -300px;
+            top: 75px;
+            width: 280px;
+            height: calc(100vh - 75px);
+            background: #111a22;
+            border-right: 1px solid #2a3a4a;
+            transition: 0.4s;
+            padding: 25px 0;
+            z-index: 90;
+        }
+        
+        .sidebar.open {
+            left: 0;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            padding: 15px 25px;
+            border-bottom: 1px solid #1a2a33;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #b0d0e0;
+        }
+        
+        .sidebar-menu li:hover {
+            background: #1f2e3a;
+            color: #00ffaa;
+        }
+        
+        .sidebar-menu li.active {
+            background: #00aaff20;
+            border-left: 4px solid #00ffaa;
+            color: #00ffaa;
+        }
+        
+        /* CONTENIDO PRINCIPAL */
+        .main-content {
+            padding: 25px;
+            margin-left: 0;
+            transition: 0.4s;
+        }
+        
+        .main-content.shifted {
+            margin-left: 280px;
+        }
+        
+        /* ESTADÍSTICAS */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
             margin-bottom: 30px;
         }
         
-        .header h1 {
+        .stat-card {
+            background: #151f2a;
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid #2a3f4a;
+        }
+        
+        .stat-card .label {
+            color: #88aaff;
+            font-size: 0.9em;
+        }
+        
+        .stat-card .value {
             color: #00ffaa;
             font-size: 2.2em;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(0, 255, 170, 0.5);
+            font-weight: bold;
         }
         
-        .header p {
-            color: #88aaff;
-            margin-top: 8px;
-            font-size: 1.1em;
-        }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-        
-        .full-width {
-            grid-column: span 2;
-        }
-        
-        .form-group {
-            margin-bottom: 5px;
-        }
-        
-        .form-group label {
-            display: block;
-            color: #aaccff;
-            font-size: 0.9em;
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(10, 20, 30, 0.7);
+        /* LICEOS */
+        .liceo-section {
+            margin-bottom: 30px;
+            background: #111a22;
+            border-radius: 20px;
+            padding: 20px;
             border: 1px solid #2a3a4a;
-            border-radius: 12px;
+        }
+        
+        .liceo-header {
+            color: #00ffaa;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #00aaff;
+        }
+        
+        .estudiante-card {
+            background: #1a2530;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #00aaff;
+        }
+        
+        .estudiante-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .campo {
+            font-size: 0.9em;
+        }
+        
+        .campo strong {
+            color: #88aaff;
+            display: block;
+            font-size: 0.8em;
+        }
+        
+        .campo span {
             color: white;
-            font-size: 1em;
-            transition: all 0.3s ease;
         }
         
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #00ffaa;
-            box-shadow: 0 0 10px rgba(0, 255, 170, 0.3);
-        }
-        
-        .section-title {
-            grid-column: span 2;
-            color: #00ccff;
-            font-size: 1.2em;
-            font-weight: 600;
-            margin: 10px 0 5px 0;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #2a4a5a;
-        }
-        
-        .btn-submit {
-            grid-column: span 2;
-            background: linear-gradient(45deg, #00cc88, #00aaff);
+        .btn-detalle {
+            background: #00aaff;
             color: #000;
             border: none;
-            padding: 15px;
-            border-radius: 30px;
-            font-size: 1.2em;
-            font-weight: bold;
-            text-transform: uppercase;
+            padding: 8px 15px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: 0.3s;
-            margin-top: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
         }
         
-        .btn-submit:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(0, 255, 170, 0.6);
+        .btn-wa {
+            background: #25d366;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.8em;
+            margin-left: 10px;
         }
         
-        @media (max-width: 600px) {
-            .form-grid {
-                grid-template-columns: 1fr;
+        @media (max-width: 768px) {
+            .main-content.shifted {
+                margin-left: 0;
             }
-            .full-width, .section-title, .btn-submit {
-                grid-column: span 1;
+            .sidebar {
+                width: 100%;
+                left: -100%;
             }
-        }
-        
-        .required::after {
-            content: " *";
-            color: #ff5566;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="header">
-                <h1>🔬 ASOCITECH MONTES</h1>
-                <p>Registro de Talentos Científicos 2025</p>
-            </div>
-            
-            <form action="/registrar" method="post">
-                <div class="form-grid">
-                    <div class="full-width">
-                        <label class="required">Nombre Completo del Estudiante</label>
-                        <input type="text" name="nombre" placeholder="Ej: MARÍA GONZÁLEZ" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="required">Cédula</label>
-                        <input type="text" name="cedula" placeholder="Ej: 28123456" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="required">Teléfono Estudiante</label>
-                        <input type="text" name="telefono_est" placeholder="Ej: 04121234567" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="required">Edad</label>
-                        <input type="number" name="edad" min="4" max="20" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="required">Sexo</label>
-                        <select name="sexo" required>
-                            <option value="M">Masculino</option>
-                            <option value="F">Femenino</option>
-                        </select>
-                    </div>
-                    
-                    <div class="full-width">
-                        <label class="required">Liceo / Escuela</label>
-                        <input type="text" name="liceo" placeholder="Ej: U.E. MONTES" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="required">Año</label>
-                        <input type="text" name="ano" placeholder="Ej: 4to" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="required">Sección</label>
-                        <input type="text" name="seccion" placeholder="Ej: A" required>
-                    </div>
-                    
-                    <div class="full-width">
-                        <label class="required">¿Qué te gusta de la ciencia?</label>
-                        <textarea name="interes" rows="2" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="required">Nivel</label>
-                        <select name="nivel" required>
-                            <option value="Principiante">🌱 Principiante</option>
-                            <option value="Intermedio">📘 Intermedio</option>
-                            <option value="Avanzado">⚡ Avanzado</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="required">¿Participado en ferias?</label>
-                        <select name="feria" required>
-                            <option value="No">No</option>
-                            <option value="Si">Sí</option>
-                        </select>
-                    </div>
-                    
-                    <div class="full-width">
-                        <label>Grupo (opcional)</label>
-                        <input type="text" name="grupo" placeholder="Ej: ROBÓTICA">
-                    </div>
-                    
-                    <div class="section-title">📞 DATOS DEL REPRESENTANTE</div>
-                    
-                    <div class="full-width">
-                        <label class="required">Nombre del representante</label>
-                        <input type="text" name="rep_nombre" required>
-                    </div>
-                    
-                    <div class="full-width">
-                        <label class="required">Teléfono del representante</label>
-                        <input type="text" name="rep_tel" placeholder="Ej: 04121234567" required>
-                    </div>
-                    
-                    <button type="submit" class="btn-submit">🚀 INSCRIBIRME</button>
-                </div>
-            </form>
+    <div class="top-bar">
+        <div class="logo-area">
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            <span class="title">⚡ ASOCITECH · MONTES</span>
+        </div>
+        <div>
+            <span class="stats-badge">{{ stats.total }} inscritos</span>
         </div>
     </div>
+    
+    <!-- MENÚ LATERAL -->
+    <div class="sidebar" id="sidebar">
+        <ul class="sidebar-menu">
+            <li onclick="location.href='?orden=liceo'" class="active">
+                <span>🏫</span> Por Liceo
+            </li>
+            <li onclick="location.href='/vargas-admin/logout'">
+                <span>🚪</span> Cerrar Sesión
+            </li>
+        </ul>
+    </div>
+    
+    <!-- CONTENIDO -->
+    <div class="main-content" id="mainContent">
+        <!-- ESTADÍSTICAS -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="label">Total estudiantes</div>
+                <div class="value">{{ stats.total }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Liceos participantes</div>
+                <div class="value">{{ stats.liceos }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Principiantes</div>
+                <div class="value">{{ stats.por_nivel.Principiante }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Intermedios/Avanzados</div>
+                <div class="value">{{ stats.por_nivel.Intermedio + stats.por_nivel.Avanzado }}</div>
+            </div>
+        </div>
+        
+        <!-- LISTADO POR LICEOS -->
+        {% for liceo, alumnos in liceos.items() %}
+        <div class="liceo-section">
+            <div class="liceo-header">
+                🏫 {{ liceo }} ({{ alumnos|length }} estudiantes)
+            </div>
+            
+            {% for a in alumnos %}
+            <div class="estudiante-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong style="color: #00ffaa; font-size: 1.1em;">{{ a.nombre }}</strong>
+                    <span>{{ a.ano }} · Sección {{ a.seccion }}</span>
+                </div>
+                
+                <div class="estudiante-grid">
+                    <div class="campo">
+                        <strong>Cédula</strong>
+                        <span>{{ a.cedula }}</span>
+                    </div>
+                    <div class="campo">
+                        <strong>Edad</strong>
+                        <span>{{ a.edad }} años</span>
+                    </div>
+                    <div class="campo">
+                        <strong>Sexo</strong>
+                        <span>{{ a.sexo }}</span>
+                    </div>
+                    <div class="campo">
+                        <strong>Tel. Estudiante</strong>
+                        <span>{{ a.telefono_est }}</span>
+                        <a href="https://wa.me/{{ a.telefono_est }}" target="_blank" class="btn-wa">📱</a>
+                    </div>
+                    <div class="campo">
+                        <strong>Nivel</strong>
+                        <span>{{ a.nivel }}</span>
+                    </div>
+                    <div class="campo">
+                        <strong>Ferias</strong>
+                        <span>{{ a.feria }}</span>
+                    </div>
+                    <div class="campo">
+                        <strong>Grupo</strong>
+                        <span>{{ a.grupo }}</span>
+                    </div>
+                    <div class="campo">
+                        <strong>Representante</strong>
+                        <span>{{ a.rep_nombre }}</span>
+                    </div>
+                    <div class="campo">
+                        <strong>Tel. Representante</strong>
+                        <span>{{ a.rep_tel }}</span>
+                        <a href="https://wa.me/{{ a.rep_tel }}" target="_blank" class="btn-wa">📱</a>
+                    </div>
+                    <div class="campo">
+                        <strong>Interés</strong>
+                        <span>{{ a.interes[:50] }}{% if a.interes|length > 50 %}...{% endif %}</span>
+                    </div>
+                </div>
+                
+                <a href="/vargas-admin/estudiante/{{ a.id }}" class="btn-detalle">VER DETALLE COMPLETO →</a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        
+        {% if not liceos %}
+        <div style="text-align: center; padding: 50px; color: #88aaff;">
+            No hay estudiantes registrados aún
+        </div>
+        {% endif %}
+    </div>
+    
+    <script>
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('mainContent').classList.toggle('shifted');
+        }
+    </script>
 </body>
-                            </html>
+                                                        </html>
