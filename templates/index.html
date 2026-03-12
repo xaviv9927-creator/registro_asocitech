@@ -3,45 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscripción ASOCITECH Montes</title>
+    <title>ASOCITECH · Registro Científico</title>
     <style>
-        body { background: #0d0d0d; color: #00ffaa; font-family: 'Segoe UI', sans-serif; padding: 20px; }
-        .card { background: #1a1a1a; border: 2px solid #00ffaa; border-radius: 15px; padding: 20px; max-width: 500px; margin: auto; box-shadow: 0 0 15px #00ffaa66; }
-        input, select, textarea { width: 100%; padding: 10px; margin: 10px 0; background: #222; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box; }
-        button { width: 100%; background: #00ffaa; color: black; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0f1e 0%, #1a1f2e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 700px;
+        }
+        
+        .card {
+            background: rgba(20, 30, 40, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 35px;
+            border: 1px solid rgba(0, 255, 170, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(0, 255, 170, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #00ffaa;
+            font-size: 2.2em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(0, 255, 170, 0.5);
+        }
+        
+        .header p {
+            color: #88aaff;
+            margin-top: 8px;
+            font-size: 1.1em;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+        
+        .full-width {
+            grid-column: span 2;
+        }
+        
+        .form-group {
+            margin-bottom: 5px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #aaccff;
+            font-size: 0.85em;
+            font-weight: 500;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(10, 20, 30, 0.7);
+            border: 1px solid #2a3a4a;
+            border-radius: 16px;
+            color: white;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00ffaa;
+            box-shadow: 0 0 15px rgba(0, 255, 170, 0.3);
+            background: rgba(20, 35, 45, 0.9);
+        }
+        
+        .form-group input::placeholder {
+            color: #4a6070;
+        }
+        
+        .section-title {
+            grid-column: span 2;
+            color: #00ccff;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin: 15px 0 5px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #2a4a5a;
+        }
+        
+        .btn-submit {
+            grid-column: span 2;
+            background: linear-gradient(45deg, #00cc88, #00aaff);
+            color: #000;
+            border: none;
+            padding: 18px;
+            border-radius: 40px;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .btn-submit:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(0, 255, 170, 0.6);
+        }
+        
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-width, .section-title, .btn-submit {
+                grid-column: span 1;
+            }
+        }
+        
+        .required::after {
+            content: " *";
+            color: #ff5566;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2 style="text-align:center;">🧬 REGISTRO ASOCITECH</h2>
-        <form action="/registrar" method="post">
-            <input type="text" name="nombre" placeholder="Nombre Completo" required>
-            <input type="text" name="cedula" placeholder="Cédula" required>
-            <input type="number" name="edad" placeholder="Edad" required>
-            <select name="sexo">
-                <option value="M">Masculino</option>
-                <option value="F">Femenino</option>
-            </select>
-            <input type="text" name="liceo" placeholder="Liceo / Escuela" required>
-            <input type="text" name="ano" placeholder="Año (Ej: 3ero)" required>
-            <input type="text" name="seccion" placeholder="Sección (Ej: B, Z, Única)" required>
-            <textarea name="interes" placeholder="¿Qué te gusta de las ciencias?" required></textarea>
-            <select name="nivel">
-                <option value="Principiante">Principiante</option>
-                <option value="Intermedio">Intermedio</option>
-                <option value="Avanzado">Avanzado</option>
-            </select>
-            <select name="feria">
-                <option value="No">¿Has participado en ferias? No</option>
-                <option value="Si">Sí</option>
-            </select>
-            <input type="text" name="grupo" placeholder="Grupo al que perteneces (Opcional)">
-            <hr>
-            <p style="font-size: 0.8em;">DATOS DEL REPRESENTANTE</p>
-            <input type="text" name="rep_nombre" placeholder="Nombre del Representante" required>
-            <input type="text" name="rep_tel" placeholder="Teléfono (Ej: 58412...)" required>
-            <button type="submit">VINCULAR CON ZUR-X 🚀</button>
-        </form>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>🔬 ASOCITECH</h1>
+                <p>Registro de Talentos Científicos · Montes 2025</p>
+            </div>
+            
+            <form action="/registrar" method="post" onsubmit="return validarFormulario()">
+                <div class="form-grid">
+                    <div class="full-width">
+                        <div class="form-group">
+                            <label class="required">Nombre Completo del Estudiante</label>
+                            <input type="text" name="nombre" placeholder="Ej: MARÍA GONZÁLEZ" required pattern="[A-Za-zÀ-ÿ\s]{5,100}" title="Mínimo 5 caracteres">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Cédula</label>
+                        <input type="text" name="cedula" placeholder="Ej: 28123456" required pattern="[VEJPG]?[0-9]{6,9}" title="Formato venezolano: 6-9 dígitos">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Edad</label>
+                        <input type="number" name="edad" min="4" max="20" required placeholder="4-20 años">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Sexo</label>
+                        <select name="sexo" required>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                            <option value="O">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Liceo / Escuela</label>
+                        <input type="text" name="liceo" placeholder="Ej: U.E. MONTES" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Año</label>
+                        <input type="text" name="ano" placeholder="Ej: 4to, 5to" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Sección</label>
+                        <input type="text" name="seccion" placeholder="Ej: A, ÚNICA" required maxlength="5">
+                    </div>
+                    
+                    <div class="full-width">
+                        <div class="form-group">
+                            <label class="required">¿Qué te gusta de la ciencia?</label>
+                            <textarea name="interes" rows="2" required placeholder="Explora tu curiosidad..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Nivel de conocimiento</label>
+                        <select name="nivel" required>
+                            <option value="Principiante">🌱 Principiante</option>
+                            <option value="Intermedio">📘 Intermedio</option>
+                            <option value="Avanzado">⚡ Avanzado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">¿Has participado en ferias?</label>
+                        <select name="feria" required>
+                            <option value="No">No, primera vez</option>
+                            <option value="Si">Sí, ya participé</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Grupo (opcional)</label>
+                        <input type="text" name="grupo" placeholder="Ej: ROBÓTICA">
+                    </div>
+                    
+                    <div class="section-title">📞 DATOS DEL REPRESENTANTE</div>
+                    
+                    <div class="full-width">
+                        <div class="form-group">
+                            <label class="required">Nombre completo del representante</label>
+                            <input type="text" name="rep_nombre" placeholder="Ej: CARLOS PÉREZ" required>
+                        </div>
+                    </div>
+                    
+                    <div class="full-width">
+                        <div class="form-group">
+                            <label class="required">Teléfono (WhatsApp)</label>
+                            <input type="tel" name="rep_tel" placeholder="Ej: 04121234567 o 584121234567" required pattern="(0[0-9]{10}|58[0-9]{10})" title="Formato venezolano: 04121234567 o 584121234567">
+                            <small style="color: #88aaff;">Formato: 04121234567 o 584121234567</small>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">🚀 INSCRIBIRME AHORA</button>
+                </div>
+            </form>
+        </div>
     </div>
+    
+    <script>
+        function validarFormulario() {
+            const tel = document.querySelector('input[name="rep_tel"]').value.replace(/[\s-]/g, '');
+            const telValido = /^(0[0-9]{10}|58[0-9]{10})$/.test(tel);
+            
+            if (!telValido) {
+                alert('❌ Teléfono inválido. Debe ser 04121234567 o 584121234567');
+                return false;
+            }
+            
+            return confirm('¿Confirmas que todos los datos son correctos?');
+        }
+    </script>
 </body>
-</html>
+                            </html>
