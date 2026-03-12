@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error en registro</title>
+    <style>
+        body {
+            background: #1a0a0a;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .card {
+            background: #221111;
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #ff5555;
+        }
+        .btn {
+            background: #ff5555;
+            color: white;
+            padding: 10px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>❌ Error en el registro</h2>
+        <ul>
+            {% for error in errores %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        <a href="javascript:history.back()" class="btn">VOLVER E INTENTAR</a>
+    </div>
+</body>
+</html>
