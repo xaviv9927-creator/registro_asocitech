@@ -13,8 +13,6 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
-            text-align: center;
         }
         .card {
             background: #112233;
@@ -22,7 +20,7 @@
             border-radius: 30px;
             border: 2px solid #00ffaa;
             max-width: 500px;
-            box-shadow: 0 0 50px rgba(0,255,170,0.2);
+            text-align: center;
         }
         h1 {
             color: #00ffaa;
@@ -43,8 +41,8 @@
 <body>
     <div class="card">
         <h1>✅ ¡REGISTRO EXITOSO!</h1>
-        <p style="font-size: 1.2em; margin: 20px 0;">Bienvenido a la familia ASOCITECH, {{ datos.nombre }}.</p>
-        <p>Te contactaremos pronto por WhatsApp para los detalles de los talleres y actividades científicas.</p>
+        <p style="font-size: 1.2em; margin: 20px 0;">Bienvenido a ASOCITECH, {{ datos.nombre }}.</p>
+        <p>Te contactaremos pronto por WhatsApp.</p>
         <a href="/" class="btn">VOLVER AL INICIO</a>
     </div>
 </body>
