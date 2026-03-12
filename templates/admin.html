@@ -3,42 +3,395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADMIN ASOCITECH</title>
+    <title>ASOCITECH · Panel de Control</title>
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; padding: 10px; }
-        h1 { color: #00ccff; font-size: 1.2em; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.8em; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-        th { background: #111; color: #00ffaa; }
-        tr:nth-child(even) { background: #111; }
-        .wa { color: #25d366; text-decoration: none; font-weight: bold; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background: #0a0c10;
+            color: #e0e0e0;
+        }
+        
+        /* Barra superior */
+        .top-bar {
+            background: #151f2a;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #00ffaa;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: #00ffaa;
+            font-size: 28px;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        
+        .menu-btn:hover {
+            background: #1a2a35;
+        }
+        
+        .title {
+            color: #00ffaa;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+        
+        .stats-badge {
+            background: #00aaff;
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: bold;
+        }
+        
+        /* Menú lateral */
+        .sidebar {
+            position: fixed;
+            left: -300px;
+            top: 75px;
+            width: 280px;
+            height: calc(100vh - 75px);
+            background: #111a22;
+            border-right: 1px solid #2a3a4a;
+            transition: 0.4s;
+            padding: 25px 0;
+            z-index: 90;
+            box-shadow: 5px 0 20px rgba(0,0,0,0.5);
+        }
+        
+        .sidebar.open {
+            left: 0;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            padding: 15px 25px;
+            border-bottom: 1px solid #1a2a33;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #b0d0e0;
+        }
+        
+        .sidebar-menu li:hover {
+            background: #1f2e3a;
+            color: #00ffaa;
+            padding-left: 30px;
+        }
+        
+        .sidebar-menu li.active {
+            background: #00aaff20;
+            border-left: 4px solid #00ffaa;
+            color: #00ffaa;
+        }
+        
+        .sidebar-menu .icon {
+            font-size: 1.3em;
+        }
+        
+        /* Contenido principal */
+        .main-content {
+            padding: 25px;
+            margin-left: 0;
+            transition: 0.4s;
+        }
+        
+        .main-content.shifted {
+            margin-left: 280px;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #151f2a;
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid #2a3f4a;
+        }
+        
+        .stat-card .label {
+            color: #88aaff;
+            font-size: 0.9em;
+        }
+        
+        .stat-card .value {
+            color: #00ffaa;
+            font-size: 2.2em;
+            font-weight: bold;
+        }
+        
+        .ordenamiento {
+            background: #151f2a;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .orden-btn {
+            background: #1a2a35;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9em;
+            border: 1px solid #2a4a5a;
+        }
+        
+        .orden-btn:hover {
+            background: #00aaff;
+            color: #000;
+        }
+        
+        .orden-btn.active {
+            background: #00ffaa;
+            color: #000;
+            font-weight: bold;
+        }
+        
+        /* Tabla */
+        .table-container {
+            background: #111a22;
+            border-radius: 20px;
+            padding: 20px;
+            overflow-x: auto;
+            border: 1px solid #2a3a4a;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        
+        th {
+            text-align: left;
+            padding: 15px 10px;
+            background: #00aaff20;
+            color: #00ffaa;
+            font-weight: 600;
+            border-bottom: 2px solid #00ffaa;
+        }
+        
+        td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #1a2a33;
+        }
+        
+        tr:hover {
+            background: #1a2530;
+        }
+        
+        .btn-wa {
+            background: #25d366;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.85em;
+            font-weight: bold;
+            display: inline-block;
+            transition: 0.2s;
+        }
+        
+        .btn-wa:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #25d366;
+        }
+        
+        .badge {
+            background: #00aaff;
+            color: #000;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .logout {
+            color: #ff5566;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content.shifted {
+                margin-left: 0;
+            }
+            .sidebar {
+                width: 100%;
+                left: -100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>📊 Panel ZUR-X: Inscritos Organizados</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Liceo</th>
-                <th>Año/Sec</th>
-                <th>Edad</th>
-                <th>Nombre</th>
-                <th>Representante</th>
-                <th>WhatsApp</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for a in alumnos %}
-            <tr>
-                <td><b>{{ a.liceo }}</b></td>
-                <td>{{ a.ano }} ({{ a.seccion }})</td>
-                <td>{{ a.edad }}</td>
-                <td>{{ a.nombre }}</td>
-                <td>{{ a.rep_nombre }}</td>
-                <td><a href="https://wa.me/{{ a.rep_tel }}" class="wa">Chat 🟢</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="top-bar">
+        <div class="logo-area">
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            <span class="title">⚡ ASOCITECH · MONTES</span>
+        </div>
+        <div>
+            <span class="stats-badge">{{ stats.total }} inscritos</span>
+        </div>
+    </div>
+    
+    <!-- Menú lateral -->
+    <div class="sidebar" id="sidebar">
+        <ul class="sidebar-menu">
+            <li onclick="location.href='?orden=liceo'" class="{% if orden_actual == 'liceo' %}active{% endif %}">
+                <span class="icon">🏫</span> Por Liceo
+            </li>
+            <li onclick="location.href='?orden=ano'" class="{% if orden_actual == 'ano' %}active{% endif %}">
+                <span class="icon">📚</span> Por Año
+            </li>
+            <li onclick="location.href='?orden=edad'" class="{% if orden_actual == 'edad' %}active{% endif %}">
+                <span class="icon">🎂</span> Por Edad
+            </li>
+            <li onclick="location.href='?orden=fecha'" class="{% if orden_actual == 'fecha' %}active{% endif %}">
+                <span class="icon">📅</span> Por Fecha
+            </li>
+            <li onclick="location.href='?orden=nombre'" class="{% if orden_actual == 'nombre' %}active{% endif %}">
+                <span class="icon">👤</span> Por Nombre
+            </li>
+            <li style="border-top: 2px solid #2a3a4a; margin-top: 20px;" onclick="location.href='/vargas-admin/logout'">
+                <span class="icon">🚪</span> Cerrar Sesión
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Contenido principal -->
+    <div class="main-content" id="mainContent">
+        <!-- Stats -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="label">Total estudiantes</div>
+                <div class="value">{{ stats.total }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Liceos participantes</div>
+                <div class="value">{{ stats.liceos }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Principiantes</div>
+                <div class="value">{{ stats.por_nivel.Principiante }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Intermedios/Avanzados</div>
+                <div class="value">{{ stats.por_nivel.Intermedio + stats.por_nivel.Avanzado }}</div>
+            </div>
+        </div>
+        
+        <!-- Ordenamiento rápido -->
+        <div class="ordenamiento">
+            <span style="color:#88aaff;">Ordenar por:</span>
+            <button class="orden-btn {% if orden_actual == 'liceo' %}active{% endif %}" onclick="location.href='?orden=liceo'">🏫 Liceo</button>
+            <button class="orden-btn {% if orden_actual == 'ano' %}active{% endif %}" onclick="location.href='?orden=ano'">📚 Año</button>
+            <button class="orden-btn {% if orden_actual == 'edad' %}active{% endif %}" onclick="location.href='?orden=edad'">🎂 Edad</button>
+            <button class="orden-btn {% if orden_actual == 'fecha' %}active{% endif %}" onclick="location.href='?orden=fecha'">📅 Fecha</button>
+        </div>
+        
+        <!-- Tabla de estudiantes -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Liceo</th>
+                        <th>Año/Sección</th>
+                        <th>Edad</th>
+                        <th>Estudiante</th>
+                        <th>Cédula</th>
+                        <th>Nivel</th>
+                        <th>Representante</th>
+                        <th>Contacto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in alumnos %}
+                    <tr>
+                        <td><strong>{{ a.liceo }}</strong></td>
+                        <td>{{ a.ano }} · {{ a.seccion }}</td>
+                        <td>{{ a.edad }} años</td>
+                        <td>{{ a.nombre }}</td>
+                        <td>{{ a.cedula }}</td>
+                        <td><span class="badge">{{ a.nivel }}</span></td>
+                        <td>{{ a.rep_nombre }}</td>
+                        <td>
+                            <a href="https://wa.me/{{ a.rep_tel }}" target="_blank" class="btn-wa">
+                                📱 WhatsApp
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            {% if not alumnos %}
+            <p style="text-align: center; color: #88aaff; padding: 40px;">No hay estudiantes registrados aún</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('shifted');
+        }
+        
+        // Cerrar menú al hacer clic fuera en móvil
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.querySelector('.menu-btn');
+            
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
+                    sidebar.classList.remove('open');
+                    document.getElementById('mainContent').classList.remove('shifted');
+                }
+            }
+        });
+    </script>
 </body>
-</html>
+    </html>
