@@ -1,12 +1,21 @@
 import telebot
+from flask import Flask, render_template, request, redirect, session, url_for, jsonify
+import os
 import re
 from datetime import datetime
 
 # === CONFIGURACIÓN ===
 TOKEN = "8555813721:AAGUPCse67ekXW8QsT_xTP3kHJWOQ3zY1_s"
 MI_CHAT_ID = "7501019675"
+CLAVE_ADMIN = "151515vargas"
 
 bot = telebot.TeleBot(TOKEN)
+app = Flask(__name__)
+app.secret_key = "asocitech_vargas_2026"
+app.config['SESSION_COOKIE_NAME'] = 'admin_session'
+
+# === BASE DE DATOS TEMPORAL ===
+estudiantes = []
 
 # === FUNCIONES DE VALIDACIÓN ===
 def validar_cedula(cedula):
@@ -23,92 +32,146 @@ def validar_edad(edad):
     except:
         return False
 
-# === COMANDO START ===
-@bot.message_handler(commands=['start'])
-def cmd_start(message):
-    texto = (
-        "🚀 *BIENVENIDO A ASOCITECH MONTES*\n\n"
-        "Te haré algunas preguntas para tu registro científico.\n\n"
-        "📌 *Responde una por una:*\n"
-        "1️⃣ Nombre completo del estudiante:\n"
-        "2️⃣ Cédula:\n"
-        "3️⃣ Edad:\n"
-        "4️⃣ Sexo (M/F):\n"
-        "5️⃣ Liceo o escuela:\n"
-        "6️⃣ Año (Ej: 4to, 5to):\n"
-        "7️⃣ Sección:\n"
-        "8️⃣ ¿Qué te gusta de la ciencia?:\n"
-        "9️⃣ Nivel (Principiante/Intermedio/Avanzado):\n"
-        "🔟 ¿Has participado en ferias? (Si/No):\n"
-        "1️⃣1️⃣ Grupo (opcional, escribe 'Ninguno' si no tienes):\n"
-        "1️⃣2️⃣ Nombre del representante:\n"
-        "1️⃣3️⃣ Teléfono del representante (Ej: 04121234567):"
-    )
-    bot.send_message(message.chat.id, texto, parse_mode="Markdown")
-    bot.register_next_step_handler(message, procesar_registro)
+# === RUTA PRINCIPAL - FORMULARIO ===
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-# === PROCESAR RESPUESTAS ===
-def procesar_registro(message):
-    respuestas = message.text.split('\n')
-    
-    # Verificar que haya 13 respuestas
-    if len(respuestas) < 13:
-        bot.send_message(message.chat.id, "❌ Debes responder las 13 preguntas separadas por saltos de línea. Usa /start para intentar de nuevo.")
-        return
-    
-    # Validar datos importantes
+# === PROCESAR REGISTRO ===
+@app.route('/registrar', methods=['POST'])
+def registrar():
     errores = []
     
-    if not validar_edad(respuestas[2].strip()):
-        errores.append("Edad inválida (debe ser 4-20 años)")
+    # Validar todos los campos
+    nombre = request.form.get('nombre', '').strip().upper()
+    if len(nombre) < 5:
+        errores.append("Nombre inválido (mínimo 5 caracteres)")
     
-    if not validar_cedula(respuestas[1].strip()):
+    cedula = request.form.get('cedula', '').strip()
+    if not validar_cedula(cedula):
         errores.append("Cédula inválida (debe tener 6-9 dígitos)")
     
-    if not validar_telefono(respuestas[12].strip()):
-        errores.append("Teléfono inválido (formato: 04121234567)")
+    telefono_est = request.form.get('telefono_est', '').strip()
+    if not validar_telefono(telefono_est):
+        errores.append("Teléfono del estudiante inválido (ej: 04121234567)")
+    
+    edad = request.form.get('edad', '')
+    if not validar_edad(edad):
+        errores.append("Edad inválida (debe ser entre 4 y 20 años)")
+    
+    telefono_rep = request.form.get('rep_tel', '').strip()
+    if not validar_telefono(telefono_rep):
+        errores.append("Teléfono del representante inválido (ej: 04121234567)")
     
     if errores:
-        bot.send_message(message.chat.id, "❌ Errores:\n" + "\n".join(errores) + "\n\nUsa /start para intentar de nuevo.")
-        return
+        return render_template('error.html', errores=errores), 400
     
-    # Si todo está bien, enviar a MI_CHAT_ID
+    # Guardar datos
+    datos = {
+        'id': len(estudiantes) + 1,
+        'fecha': datetime.now().strftime("%Y-%m-%d %H:%M"),
+        'nombre': nombre,
+        'cedula': cedula,
+        'telefono_est': telefono_est,
+        'edad': int(edad),
+        'sexo': request.form['sexo'],
+        'liceo': request.form['liceo'].strip().upper(),
+        'ano': request.form['ano'].strip(),
+        'seccion': request.form['seccion'].strip().upper(),
+        'interes': request.form['interes'].strip(),
+        'nivel': request.form['nivel'],
+        'feria': request.form['feria'],
+        'grupo': request.form.get('grupo', '').strip().upper() or 'SIN GRUPO',
+        'rep_nombre': request.form['rep_nombre'].strip().upper(),
+        'rep_tel': telefono_rep
+    }
+    estudiantes.append(datos)
+    
+    # Reporte a Telegram
     reporte = (
-        f"🚀 *NUEVO REGISTRO CIENTÍFICO*\n"
-        f"📅 {datetime.now().strftime('%d/%m/%Y %H:%M')}\n"
-        f"👤 *Usuario:* {message.from_user.first_name} (@{message.from_user.username})\n"
-        f"🆔 ID: {message.from_user.id}\n\n"
-        f"📋 *DATOS DEL ESTUDIANTE:*\n"
-        f"1️⃣ Nombre: {respuestas[0].strip()}\n"
-        f"2️⃣ Cédula: {respuestas[1].strip()}\n"
-        f"3️⃣ Edad: {respuestas[2].strip()}\n"
-        f"4️⃣ Sexo: {respuestas[3].strip()}\n"
-        f"5️⃣ Liceo: {respuestas[4].strip()}\n"
-        f"6️⃣ Año: {respuestas[5].strip()}\n"
-        f"7️⃣ Sección: {respuestas[6].strip()}\n"
-        f"8️⃣ Interés: {respuestas[7].strip()}\n"
-        f"9️⃣ Nivel: {respuestas[8].strip()}\n"
-        f"🔟 Ferias: {respuestas[9].strip()}\n"
-        f"1️⃣1️⃣ Grupo: {respuestas[10].strip()}\n"
-        f"1️⃣2️⃣ Representante: {respuestas[11].strip()}\n"
-        f"1️⃣3️⃣ Teléfono: {respuestas[12].strip()}"
+        f"🚀 *NUEVA INSCRIPCIÓN #{len(estudiantes)}*\n"
+        f"📅 {datos['fecha']}\n"
+        f"👤 *Estudiante:* {datos['nombre']}\n"
+        f"🆔 Cédula: {datos['cedula']}\n"
+        f"📱 Tel Est: {datos['telefono_est']}\n"
+        f"🎂 Edad: {datos['edad']} años\n"
+        f"🏫 *Liceo:* {datos['liceo']}\n"
+        f"📚 {datos['ano']} - Sección {datos['seccion']}\n"
+        f"🔬 Nivel: {datos['nivel']}\n"
+        f"📞 *Representante:* {datos['rep_nombre']}\n"
+        f"📱 Tel Rep: {datos['rep_tel']}"
     )
+    try:
+        bot.send_message(MI_CHAT_ID, reporte, parse_mode="Markdown")
+    except:
+        pass
     
-    # Enviar a ti (el admin)
-    bot.send_message(MI_CHAT_ID, reporte, parse_mode="Markdown")
+    return render_template('exito.html', datos=datos)
+
+# === LOGIN ADMIN ===
+@app.route('/vargas-admin')
+def login():
+    return render_template('login.html')
+
+@app.route('/auth', methods=['POST'])
+def auth():
+    if request.form.get('clave') == CLAVE_ADMIN:
+        session['admin'] = True
+        return redirect(url_for('panel'))
+    return render_template('login.html', error="Clave incorrecta")
+
+# === PANEL PRINCIPAL ADMIN ===
+@app.route('/vargas-admin/panel')
+def panel():
+    if not session.get('admin'):
+        return redirect(url_for('login'))
     
-    # Confirmar al usuario
-    bot.send_message(
-        message.chat.id, 
-        "✅ *¡REGISTRO EXITOSO!*\n\nGracias por formar parte de ASOCITECH Montes. Te contactaremos pronto por WhatsApp para los detalles de los talleres científicos.\n\n🔬 *La ciencia te necesita*",
-        parse_mode="Markdown"
-    )
+    # Obtener parámetro de orden
+    orden = request.args.get('orden', 'liceo')
+    
+    # Agrupar por liceo
+    liceos = {}
+    for e in estudiantes:
+        if e['liceo'] not in liceos:
+            liceos[e['liceo']] = []
+        liceos[e['liceo']].append(e)
+    
+    # Ordenar cada liceo por año y sección
+    for liceo in liceos:
+        liceos[liceo].sort(key=lambda x: (x['ano'], x['seccion'], x['edad']))
+    
+    # Estadísticas
+    stats = {
+        'total': len(estudiantes),
+        'liceos': len(liceos),
+        'por_nivel': {
+            'Principiante': sum(1 for e in estudiantes if e['nivel'] == 'Principiante'),
+            'Intermedio': sum(1 for e in estudiantes if e['nivel'] == 'Intermedio'),
+            'Avanzado': sum(1 for e in estudiantes if e['nivel'] == 'Avanzado')
+        }
+    }
+    
+    return render_template('admin.html', liceos=liceos, stats=stats, orden_actual=orden)
 
-# === RESPUESTA A CUALQUIER OTRO MENSAJE ===
-@bot.message_handler(func=lambda m: True)
-def mensaje_generico(message):
-    bot.send_message(message.chat.id, "🤖 Usa /start para registrarte en ASOCITECH")
+# === VER DETALLE DE ESTUDIANTE ===
+@app.route('/vargas-admin/estudiante/<int:id>')
+def ver_estudiante(id):
+    if not session.get('admin'):
+        return redirect(url_for('login'))
+    
+    estudiante = next((e for e in estudiantes if e['id'] == id), None)
+    if not estudiante:
+        return "Estudiante no encontrado", 404
+    
+    return render_template('detalle.html', e=estudiante)
 
-# === INICIAR BOT ===
-print("✅ BOT DE ASOCITECH ACTIVADO - Esperando registros...")
-bot.infinity_polling()
+# === CERRAR SESIÓN ===
+@app.route('/vargas-admin/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+# === INICIAR SERVIDOR ===
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port, debug=True)
