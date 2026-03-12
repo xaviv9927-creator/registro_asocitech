@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
         
         body {
@@ -23,16 +23,16 @@
         
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
         }
         
         .card {
-            background: rgba(20, 30, 40, 0.95);
+            background: rgba(12, 20, 28, 0.97);
             backdrop-filter: blur(10px);
-            border-radius: 30px;
+            border-radius: 32px;
             padding: 35px;
-            border: 1px solid rgba(0, 255, 170, 0.2);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 1px solid rgba(0, 255, 170, 0.25);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 170, 0.1) inset;
         }
         
         .header {
@@ -42,23 +42,25 @@
         
         .header h1 {
             color: #00ffaa;
-            font-size: 2.2em;
-            font-weight: 600;
+            font-size: 2.4em;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(0, 255, 170, 0.5);
+            letter-spacing: 3px;
+            text-shadow: 0 0 25px rgba(0, 255, 170, 0.6);
+            margin-bottom: 8px;
         }
         
         .header p {
             color: #88aaff;
-            margin-top: 8px;
             font-size: 1.1em;
+            font-weight: 400;
+            letter-spacing: 1px;
         }
         
         .form-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 18px;
         }
         
         .full-width {
@@ -71,75 +73,151 @@
         
         .form-group label {
             display: block;
-            color: #aaccff;
+            color: #b0d0ff;
             font-size: 0.9em;
             font-weight: 500;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
         }
         
+        /* ESTILO ÚNICO PARA TODOS LOS CAMPOS */
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 12px 15px;
-            background: rgba(10, 20, 30, 0.7);
-            border: 1px solid #2a3a4a;
-            border-radius: 12px;
-            color: white;
+            padding: 14px 18px;
+            background: #0e1a26 !important;
+            border: 1.5px solid #1e3b4f !important;
+            border-radius: 16px !important;
+            color: #ffffff !important;
             font-size: 1em;
-            transition: all 0.3s ease;
+            font-weight: 400;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
         }
         
+        /* Placeholders en azul grisáceo */
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #7f9fbf !important;
+            opacity: 1;
+            font-weight: 400;
+        }
+        
+        /* Focus state - todos los campos brillan igual */
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            outline: none;
-            border-color: #00ffaa;
-            box-shadow: 0 0 10px rgba(0, 255, 170, 0.3);
+            border-color: #00ffaa !important;
+            box-shadow: 0 0 0 3px rgba(0, 255, 170, 0.2), 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+            background: #0f1c2a !important;
         }
         
+        /* Estilo específico para selects */
+        .form-group select {
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2388aaff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+            background-size: 16px;
+            cursor: pointer;
+        }
+        
+        /* Opciones de los selects */
+        .form-group select option {
+            background: #0e1a26 !important;
+            color: #ffffff !important;
+            padding: 12px !important;
+            font-size: 1em;
+        }
+        
+        /* Textarea específico */
+        .form-group textarea {
+            min-height: 85px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        
+        /* Título de sección */
         .section-title {
             grid-column: span 2;
             color: #00ccff;
-            font-size: 1.2em;
+            font-size: 1.3em;
             font-weight: 600;
-            margin: 10px 0 5px 0;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #2a4a5a;
+            margin: 15px 0 10px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1e4a6a;
+            text-shadow: 0 0 10px rgba(0, 200, 255, 0.3);
         }
         
+        /* Botón principal */
         .btn-submit {
             grid-column: span 2;
-            background: linear-gradient(45deg, #00cc88, #00aaff);
+            background: linear-gradient(145deg, #00ddaa, #0099ff);
             color: #000;
             border: none;
-            padding: 15px;
-            border-radius: 30px;
-            font-size: 1.2em;
-            font-weight: bold;
+            padding: 18px 25px;
+            border-radius: 40px;
+            font-size: 1.3em;
+            font-weight: 800;
             text-transform: uppercase;
+            letter-spacing: 2.5px;
             cursor: pointer;
-            transition: 0.3s;
-            margin-top: 15px;
+            transition: all 0.3s ease;
+            margin-top: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px -5px rgba(0, 255, 170, 0.4);
         }
         
         .btn-submit:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(0, 255, 170, 0.6);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 35px -5px #00ffaa;
+            background: linear-gradient(145deg, #00ffaa, #00aaff);
         }
         
-        @media (max-width: 600px) {
+        .btn-submit:active {
+            transform: translateY(0) scale(0.98);
+        }
+        
+        /* Indicador de campo requerido */
+        .required::after {
+            content: " *";
+            color: #ff6666;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        
+        /* Responsive */
+        @media (max-width: 650px) {
             .form-grid {
                 grid-template-columns: 1fr;
             }
             .full-width, .section-title, .btn-submit {
                 grid-column: span 1;
             }
+            .card {
+                padding: 25px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
         }
         
-        .required::after {
-            content: " *";
-            color: #ff5566;
+        /* Estilo para números (quitar flechas) */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        
+        /* Pequeño detalle decorativo */
+        .form-group {
+            position: relative;
         }
     </style>
 </head>
@@ -153,9 +231,12 @@
             
             <form action="/registrar" method="post">
                 <div class="form-grid">
+                    <!-- ESTUDIANTE -->
                     <div class="full-width">
-                        <label class="required">Nombre Completo del Estudiante</label>
-                        <input type="text" name="nombre" placeholder="Ej: MARÍA GONZÁLEZ" required>
+                        <div class="form-group">
+                            <label class="required">Nombre Completo del Estudiante</label>
+                            <input type="text" name="nombre" placeholder="Ej: MARÍA GONZÁLEZ" required>
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -170,40 +251,46 @@
                     
                     <div class="form-group">
                         <label class="required">Edad</label>
-                        <input type="number" name="edad" min="4" max="20" required>
+                        <input type="number" name="edad" min="4" max="20" placeholder="4-20 años" required>
                     </div>
                     
                     <div class="form-group">
                         <label class="required">Sexo</label>
                         <select name="sexo" required>
+                            <option value="" disabled selected>Selecciona una opción</option>
                             <option value="M">Masculino</option>
                             <option value="F">Femenino</option>
                         </select>
                     </div>
                     
                     <div class="full-width">
-                        <label class="required">Liceo / Escuela</label>
-                        <input type="text" name="liceo" placeholder="Ej: U.E. MONTES" required>
+                        <div class="form-group">
+                            <label class="required">Liceo / Escuela</label>
+                            <input type="text" name="liceo" placeholder="Ej: U.E. MONTES" required>
+                        </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="required">Año</label>
-                        <input type="text" name="ano" placeholder="Ej: 4to" required>
+                        <input type="text" name="ano" placeholder="Ej: 4to, 5to" required>
                     </div>
                     
                     <div class="form-group">
                         <label class="required">Sección</label>
-                        <input type="text" name="seccion" placeholder="Ej: A" required>
+                        <input type="text" name="seccion" placeholder="Ej: A, ÚNICA" required>
                     </div>
                     
                     <div class="full-width">
-                        <label class="required">¿Qué te gusta de la ciencia?</label>
-                        <textarea name="interes" rows="2" required></textarea>
+                        <div class="form-group">
+                            <label class="required">¿Qué te gusta de la ciencia?</label>
+                            <textarea name="interes" placeholder="Cuéntanos tu interés científico..." required></textarea>
+                        </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="required">Nivel</label>
                         <select name="nivel" required>
+                            <option value="" disabled selected>Selecciona tu nivel</option>
                             <option value="Principiante">🌱 Principiante</option>
                             <option value="Intermedio">📘 Intermedio</option>
                             <option value="Avanzado">⚡ Avanzado</option>
@@ -211,34 +298,43 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="required">¿Participado en ferias?</label>
+                        <label class="required">¿Ferias?</label>
                         <select name="feria" required>
-                            <option value="No">No</option>
-                            <option value="Si">Sí</option>
+                            <option value="" disabled selected>Selecciona</option>
+                            <option value="No">No, primera vez</option>
+                            <option value="Si">Sí, ya participé</option>
                         </select>
                     </div>
                     
                     <div class="full-width">
-                        <label>Grupo (opcional)</label>
-                        <input type="text" name="grupo" placeholder="Ej: ROBÓTICA">
+                        <div class="form-group">
+                            <label>Grupo (opcional)</label>
+                            <input type="text" name="grupo" placeholder="Ej: ROBÓTICA, CIENCIAS, etc.">
+                        </div>
                     </div>
                     
+                    <!-- REPRESENTANTE -->
                     <div class="section-title">📞 DATOS DEL REPRESENTANTE</div>
                     
                     <div class="full-width">
-                        <label class="required">Nombre del representante</label>
-                        <input type="text" name="rep_nombre" required>
+                        <div class="form-group">
+                            <label class="required">Nombre del representante</label>
+                            <input type="text" name="rep_nombre" placeholder="Ej: CARLOS PÉREZ" required>
+                        </div>
                     </div>
                     
                     <div class="full-width">
-                        <label class="required">Teléfono del representante</label>
-                        <input type="text" name="rep_tel" placeholder="Ej: 04121234567" required>
+                        <div class="form-group">
+                            <label class="required">Teléfono del representante</label>
+                            <input type="text" name="rep_tel" placeholder="Ej: 04121234567" required>
+                        </div>
                     </div>
                     
-                    <button type="submit" class="btn-submit">🚀 INSCRIBIRME</button>
+                    <!-- BOTÓN -->
+                    <button type="submit" class="btn-submit">🚀 INSCRIBIRME AHORA</button>
                 </div>
             </form>
         </div>
     </div>
 </body>
-</html>
+    </html>
