@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Admin</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0f1e, #1a1f2e);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .login-card {
+            background: rgba(20, 30, 40, 0.95);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid #00ffaa;
+            width: 350px;
+            text-align: center;
+        }
+        h2 {
+            color: #00ffaa;
+            margin-bottom: 30px;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: #1a2a35;
+            border: 1px solid #2a4a5a;
+            border-radius: 15px;
+            color: white;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #00ffaa;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .error {
+            color: #ff5566;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h2>🔐 ACCESO ADMIN</h2>
+        <form action="/auth" method="post">
+            <input type="password" name="clave" placeholder="Clave de seguridad" required>
+            {% if error %}
+            <div class="error">{{ error }}</div>
+            {% endif %}
+            <button type="submit">INGRESAR</button>
+        </form>
+    </div>
+</body>
+</html>
