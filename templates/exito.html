@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Registro Exitoso!</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a1a2a, #0a2a1a);
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .card {
+            background: #112233;
+            padding: 40px;
+            border-radius: 30px;
+            border: 2px solid #00ffaa;
+            max-width: 500px;
+            box-shadow: 0 0 50px rgba(0,255,170,0.2);
+        }
+        h1 {
+            color: #00ffaa;
+            font-size: 2.5em;
+        }
+        .btn {
+            background: #00ffaa;
+            color: black;
+            padding: 15px 40px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>✅ ¡REGISTRO EXITOSO!</h1>
+        <p style="font-size: 1.2em; margin: 20px 0;">Bienvenido a la familia ASOCITECH, {{ datos.nombre }}.</p>
+        <p>Te contactaremos pronto por WhatsApp para los detalles de los talleres y actividades científicas.</p>
+        <a href="/" class="btn">VOLVER AL INICIO</a>
+    </div>
+</body>
+</html>
